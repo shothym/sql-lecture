@@ -136,5 +136,79 @@ ON
 ;
 ```
 
+### 集計
+```sql
+SELECT
+  name,
+  MAX(price) AS max,
+  MIN(price) AS min,
+  AVG(price) AS average
+FROM
+  item
+GROUP BY
+  name
+;
+```
+
+### 副問合せ
+```sql
+WITH t1 AS (
+),
+
+SELECT
+  *
+FROM
+  (
+   SELECT
+     *
+   FROM
+     stock
+   WHERE
+     quantity BETWEEN 500 AND 1000
+  ) AS t1
+LEFT OUTER JOIN
+  (
+    SELECT
+      *
+    FROM
+      item
+    WHERE
+      category LIKE 'M%'
+  ) AS t2
+ON
+  t1.item_id = t2.id
+;
+```
+
+### WITH句
+```sql
+WITH t1 AS (
+  SELECT
+    *
+  FROM
+    stock
+  WHERE
+    quantity BETWEEN 500 AND 1000
+),
+t2 AS (
+  SELECT
+    *
+  FROM
+    item
+  WHERE
+    category LIKE 'M%'
+)
+
+SELECT
+  *
+FROM
+  t1
+LEFT OUTER JOIN
+  t2
+ON
+  t1.item_id = t2.id
+;
+```
+
 ## 参考資料
 - [Dockerで使い捨てのMySQL環境を用意する。事前データを投入して起動する。 - My External Storage](https://budougumi0617.github.io/2018/05/20/create-instant-mysql-by-docker/)
