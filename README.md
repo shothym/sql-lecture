@@ -12,7 +12,12 @@ $ docker container run --rm -d \
   -p 43306:3306 --name mysql mysql:5.7
 
 # MySQLにログイン
-$ mysql -h 127.0.0.1 --port 43306 -uroot -pmysql
+## -h | --host ....... Host name
+## --port ............ Port number
+## -u | --user ....... User name
+## -p | --password ... Password
+$ mysql -h 127.0.0.1 --port 43306 -u root -pmysql
+$ mysql --host 127.0.0.1 --port 43306 --user root --password
 
 # MySQLコンテナを停止
 $ docker container stop mysql
