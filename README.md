@@ -9,7 +9,8 @@ $ brew install mysql
 $ docker container run --rm -d \
   -v `pwd`/init:/docker-entrypoint-initdb.d \
   -e MYSQL_ROOT_PASSWORD=mysql \
-  -p 43306:3306 --name mysql mysql:5.7
+  -p 43306:3306 \
+  --name mysql mysql:8.0
 
 # MySQLにログイン
 ## -h | --host ....... Host name
@@ -56,22 +57,40 @@ ON
 #### LEFT OUTER JOIN
 ```sql
 SELECT
-  stock.name,
-  stock.item_id,
-  item.name,
-  item.price,
-  stock.quantity
+  s.name,
+  s.item_id,
+  i.name,
+  i.price,
+  s.quantity
 FROM
-  stock
+  stock AS s
 LEFT OUTER JOIN
-  item
+  item AS i
 ON
-  stock.item_id = item.id
+  s.item_id = i.id
 ;
 ```
 
 #### RIGHT OUTER JOIN
 ```sql
+SELECT
+  s.name,
+  s.item_id,
+  i.name,
+  i.price,
+  s.quantity
+FROM
+  stock s
+RIGHT OUTER JOIN
+  item i
+ON
+  s.item_id = i.id
+;
+```
+
+#### FULL OUTER JOIN
+```sql
+-- MySQLではサポートされていない
 SELECT
   stock.name,
   stock.item_id,
@@ -80,10 +99,40 @@ SELECT
   stock.quantity
 FROM
   stock
-RIGHT OUTER JOIN
+FULL OUTER JOIN
   item
 ON
   stock.item_id = item.id
+;
+```
+
+### WITH句
+```
+WITH t1 AS (
+  SELECT
+    *
+  FROM
+    stock
+  WHERE
+    quantity BETWEEN 500 AND 1000
+),
+t2 AS (
+  SELECT
+    *
+  FROM
+    item
+  WHERE
+    category LIKE 'M%'
+)
+
+SELECT
+  *
+FROM
+  t1
+LEFT OUTER JOIN
+  t2
+ON
+  t1.item_id = t2.id
 ;
 ```
 
