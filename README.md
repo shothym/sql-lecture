@@ -122,6 +122,22 @@ HAVING
 ;
 ```
 
+```sql
+-- Error
+SELECT
+  name,
+  MAX(price) AS max,
+  MIN(price) AS min,
+  AVG(price) AS average
+FROM
+  item
+WHERE
+  avg(price) > 2000
+GROUP BY
+  name
+;
+```
+
 ### 副問合せ
 ```sql
 SELECT
