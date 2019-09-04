@@ -106,36 +106,6 @@ ON
 ;
 ```
 
-### WITH句
-```
-WITH t1 AS (
-  SELECT
-    *
-  FROM
-    stock
-  WHERE
-    quantity BETWEEN 500 AND 1000
-),
-t2 AS (
-  SELECT
-    *
-  FROM
-    item
-  WHERE
-    category LIKE 'M%'
-)
-
-SELECT
-  *
-FROM
-  t1
-LEFT OUTER JOIN
-  t2
-ON
-  t1.item_id = t2.id
-;
-```
-
 ### 集計
 ```sql
 SELECT
@@ -147,6 +117,8 @@ FROM
   item
 GROUP BY
   name
+HAVING
+  average > 2000
 ;
 ```
 
