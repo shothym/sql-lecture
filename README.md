@@ -152,9 +152,6 @@ GROUP BY
 
 ### 副問合せ
 ```sql
-WITH t1 AS (
-),
-
 SELECT
   *
 FROM
